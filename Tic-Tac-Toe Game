@@ -1,0 +1,189 @@
+# coding: utf-8
+
+
+
+
+def display_board(board):
+    print("\n"*100)
+
+    print('   |   |')
+    print(' ' + board[7] + ' | ' + board[8] + ' | ' + board[9])
+    print('   |   |')
+    print('-----------')
+    print('   |   |')
+    print(' ' + board[4] + ' | ' + board[5] + ' | ' + board[6])
+    print('   |   |')
+    print('-----------')
+    print('   |   |')
+    print(' ' + board[1] + ' | ' + board[2] + ' | ' + board[3])
+    print('   |   |')
+
+
+def marker_choice():
+    marker = ''
+
+    while marker != 'X' and marker != 'O':
+        marker = input(' 1. oyuncu lütfen oynayacağın sembolü seç ! : ').upper()
+
+    if marker == 'X':
+        return ('X', 'O')
+
+    else:
+        return ('O', 'X')
+
+
+import random
+
+
+def who_will_go_first():
+    turn = random.randint(1, 2)
+
+    if turn == 1:
+        return 'Player1'
+
+    else:
+        return 'Player2'
+
+
+
+
+def position_choice():
+    position = 0
+
+    while position not in ['1', '2', '3', '4', '5', '6', '7', '8', '9'] or not availability_check(game_board,
+                                                                                                  int(position)):
+        position = input('Lütfen 1-9 arası işaretlemek istediğiniz pozisyonu seçiniz ! : ')
+
+    return int(position)
+
+
+
+
+
+def marking(board, marker, position):
+    board[position] = marker
+
+
+
+
+
+def availability_check(board, position):
+    return board[position] == ' '
+
+
+# True if available false if not
+
+
+
+
+def draw_check(board):
+    # True if full False if at least one space is still empty
+    for items in range(1, 10):
+        if board[items] == ' ':
+            return False
+
+    else:
+        return True
+
+
+
+def win_check(board, marker):
+    for a in [1, 4, 7]:
+        if marker == board[a] == board[a + 1] == board[a + 2]:
+            return True
+
+    for b in [1, 2, 3]:
+        if marker == board[b] == board[b + 3] == board[b + 6]:
+            return True
+
+    if marker == board[1] == board[5] == board[9]:
+        return True
+    else:
+        if marker == board[3] == board[5] == board[7]:
+            return True
+        else:
+            return False
+
+
+
+def replay():
+    choice = ''
+
+    while choice != 'Evet' and choice != 'Hayır':
+        choice = input('Tekrar oynamak ister misiniz ? (Evet veya Hayır yazınız) : ').capitalize()
+
+    return choice == 'Evet'
+
+
+
+print("Tic Tac Toe'ya hoşgeldiniz !!!")
+while True:
+    game_board = [' '] * 10
+    player1_marker, player2_marker = marker_choice()
+
+    print(f'1. oyuncu {player1_marker} ile oynayacak ')
+    print(f'2. oyuncu {player2_marker} ile oynayacak')
+    turn = who_will_go_first()
+
+    if turn == 'Player1':
+        print('1. oyuncu oyuna başlayacak')
+
+    else:
+        print('2. oyuncu oyuna başlayacak')
+
+    x = input('HEY OYNAMAYA HAZIR MISINIZ ??!!! Hazırsanız EVET yazın lütfen ! : ').upper()
+
+    if x == 'EVET':
+        game_on = True
+    else:
+        break
+
+    while game_on:
+
+        if turn == 'Player1':
+            display_board(game_board)
+            print('1. oyuncu lütfen pozisyon seç!')
+            position = position_choice()
+            marking(game_board, player1_marker, position)
+
+            if win_check(game_board, player1_marker):
+
+                display_board(game_board)
+                print('TEBRİKLER!! OYUNU 1. OYUNCU KAZANDI!!')
+                game_on = False
+
+            else:
+                if draw_check(game_board):
+                    display_board(game_board)
+                    print('BERABERE !!!')
+                    game_on = False
+
+                else:
+                    turn = 'Player2'
+
+        if turn == 'Player2':
+            display_board(game_board)
+            print('2. oyuncu lütfen pozisyon seç !')
+            position = position_choice()
+            marking(game_board, player2_marker, position)
+
+            if win_check(game_board, player2_marker):
+                display_board(game_board)
+                print('TEBRİKLER!! OYUNU 2. OYUNCU KAZANDI!!')
+                game_on = False
+
+
+            else:
+
+                if draw_check(game_board):
+
+                    display_board(game_board)
+                    print('BERABERE !!!')
+                    game_on = False
+
+                else:
+                    turn = 'Player1'
+
+    if not replay():
+        print('Oynadığınız için teşekkürler!! Yine bekleriz !!')
+        break
