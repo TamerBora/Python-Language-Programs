@@ -1,0 +1,16 @@
+import cv2
+import qrcode
+from selenium import webdriver
+
+#Generates QRCode for GitHub Profile, decodes and extracts the link using OpenCV, runs it on chrome using Selenium
+# webdriver
+
+driver_path = r"C:\Users\Tamer Bora\PycharmProjects\Selenium\chromedriver.exe"
+img = qrcode.make("https://github.com/TamerBora")
+img.save("QRcodeForGithub.jpg")
+
+qrDetector = cv2.QRCodeDetector()
+output,_,_ = qrDetector.detectAndDecode(cv2.imread("QRcodeForGithub.jpg"))
+print(output)
+driver = webdriver.Chrome(driver_path)
+driver.get(output)
