@@ -18,11 +18,14 @@ label1.grid(row = 0, column = 0, columnspan = 3)
 
 def forward(index_num):
     global label1
+    global status_label
     label1.grid_forget()
 
     label1 = Label(root, image = img_list[index_num-1])
-    forward_button = Button(root, text = ">>", command = lambda: forward(index_num+1))
-    back_button = Button(root, text = "<<", command = lambda: backward(index_num-1))
+    forward_button = Button(root, text=">>", command = lambda: forward(index_num+1))
+    back_button = Button(root, text="<<", command = lambda: backward(index_num-1))
+    status_label = Label(root, text=f"{index_num} of 6", fg="yellow", bg="black")
+
 
     if index_num == 6:
         forward_button = Button(root, text=">>", state = DISABLED)
@@ -30,7 +33,7 @@ def forward(index_num):
     label1.grid(row = 0, column =0, columnspan =3)
     forward_button.grid(row=1,column=2)
     back_button.grid(row=1,column=0)
-
+    status_label.grid(row=2, column = 3)
 
 def backward(index_num):
     global label1
@@ -41,13 +44,13 @@ def backward(index_num):
 
     forward_button = Button(root, text=">>", command=lambda: forward(index_num + 1))
     back_button = Button(root, text="<<", command=lambda: backward(index_num - 1))
-
+    status_label = Label(root, text=f"{index_num} of 6", fg="yellow", bg = "black")
     if index_num == 1:
         back_button = Button(root, text="<<", state=DISABLED)
 
     forward_button.grid(row=1, column=2)
     back_button.grid(row=1, column =0)
-
+    status_label.grid(row=2, column = 3)
 
 exit_button = Button(root, text = "Exit", command = root.quit)
 exit_button.grid(row = 1, column = 1)
@@ -58,4 +61,5 @@ forward_button.grid(row = 1, column = 2)
 back_button = Button(root, text = "<<", command = lambda : backward(2), state = DISABLED)
 back_button.grid(row = 1, column = 0)
 
+status_label = Label(root, text = f"1 of {len(img_list)}", fg="yellow", bg="black").grid(row = 2, column = 3)
 root.mainloop()
