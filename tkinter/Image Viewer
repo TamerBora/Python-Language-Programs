@@ -1,0 +1,61 @@
+from tkinter import *
+from PIL import ImageTk,Image
+root = Tk()
+
+
+img1 = ImageTk.PhotoImage(Image.open(r"C:\Users\Tamer Bora\OneDrive\Resimler\Fotolar\[1].jpg"))
+img2 = ImageTk.PhotoImage(Image.open(r"C:\Users\Tamer Bora\OneDrive\Resimler\Fotolar\[2].jpg"))
+img3 = ImageTk.PhotoImage(Image.open(r"C:\Users\Tamer Bora\OneDrive\Resimler\Fotolar\[3].jpg"))
+img4 = ImageTk.PhotoImage(Image.open(r"C:\Users\Tamer Bora\OneDrive\Resimler\Fotolar\[4].jpg"))
+img5 = ImageTk.PhotoImage(Image.open(r"C:\Users\Tamer Bora\OneDrive\Resimler\Fotolar\[5].jpeg"))
+img6 = ImageTk.PhotoImage(Image.open(r"C:\Users\Tamer Bora\OneDrive\Resimler\Fotolar\[6].jpeg"))
+
+img_list = [img1,img2,img3,img4,img5,img6]
+label1 = Label(root, image = img1)
+label1.grid(row = 0, column = 0, columnspan = 3)
+
+
+
+def forward(index_num):
+    global label1
+    label1.grid_forget()
+
+    label1 = Label(root, image = img_list[index_num-1])
+    forward_button = Button(root, text = ">>", command = lambda: forward(index_num+1))
+    back_button = Button(root, text = "<<", command = lambda: backward(index_num-1))
+
+    if index_num == 6:
+        forward_button = Button(root, text=">>", state = DISABLED)
+
+    label1.grid(row = 0, column =0, columnspan =3)
+    forward_button.grid(row=1,column=2)
+    back_button.grid(row=1,column=0)
+
+
+def backward(index_num):
+    global label1
+    label1.grid_forget()
+
+    label1 = Label(root, image=img_list[index_num - 1])
+    label1.grid(row=0, column=0, columnspan=3)
+
+    forward_button = Button(root, text=">>", command=lambda: forward(index_num + 1))
+    back_button = Button(root, text="<<", command=lambda: backward(index_num - 1))
+
+    if index_num == 1:
+        back_button = Button(root, text="<<", state=DISABLED)
+
+    forward_button.grid(row=1, column=2)
+    back_button.grid(row=1, column =0)
+
+
+exit_button = Button(root, text = "Exit", command = root.quit)
+exit_button.grid(row = 1, column = 1)
+
+forward_button = Button(root, text = ">>", command =lambda: forward(2))
+forward_button.grid(row = 1, column = 2)
+
+back_button = Button(root, text = "<<", command = lambda : backward(2), state = DISABLED)
+back_button.grid(row = 1, column = 0)
+
+root.mainloop()
