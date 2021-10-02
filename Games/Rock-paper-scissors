@@ -1,0 +1,88 @@
+from random import randint
+
+options = ["rock", "paper", "scissors"]
+game_on = True
+userScore = 0
+opponentScore = 0
+def user_inp():
+    x = 0
+    global options
+    while x not in options:
+        x = input("Please choose rock-paper-scissors, (eg. type rock for rock): " )
+        x = x.lower()
+
+    return x
+
+def opponent():
+    global options
+
+    randIndex = randint(0,2)
+
+    return options[randIndex]
+
+def wincheck(user,opponent):
+    global userScore,opponentScore,name
+
+    if user==opponent:
+        return 'round ends as a tie'
+
+    if user == 'paper':
+        if opponent=='scissors':
+            opponentScore+=1
+            return 'opponent wins round'
+        else:
+            userScore+=1
+            return name + " wins round"
+
+    if user == 'rock':
+        if opponent=='paper':
+            opponentScore+=1
+            return 'opponent wins round'
+        else:
+            userScore+=1
+            return name + " wins round"
+
+    if user == 'scissors':
+        if opponent=='rock':
+            opponentScore+=1
+            return 'opponent wins round'
+        else:
+            userScore+=1
+            return name + " wins round"
+
+def playAgain(winner):
+    global name,game_on, userScore, opponentScore
+    if winner == name:
+        print(f'Congrats {name} ! You have won the game')
+    else:
+        print("Better luck next time !")
+
+    inp = input(f"Hey {name}, would you like to play again ? : ")
+    inp= inp.lower()
+    if inp=='no':
+        game_on = False
+        print("Thanks for playing !")
+    else :
+        print("Get ready for new round !")
+        userScore = 0
+        opponentScore = 0
+    return
+
+#game
+
+print("Welcome to rock-paper-scissors !")
+name = input("To start, please enter your name : ")
+
+while game_on:
+    playerChoice = user_inp()
+    opponentChoice = opponent()
+    print(f'{name} chose {playerChoice}, opponent chose {opponentChoice}\n')
+    print(wincheck(playerChoice,opponentChoice))
+    if userScore == 3:
+        winner = name
+        playAgain(winner)
+
+    elif opponentScore == 3:
+        winner = 'opponent'
+        playAgain(winner)
+
